@@ -1,6 +1,7 @@
 ﻿using LaptopStore.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,13 +12,13 @@ namespace LaptopStore.DAL
     {
         public void HienThiToanBoSanPham()
         {
-            using (var context = new MyDbContext())
+            using (var context = new LAPTOPSTOREContext())
             {
                 var sanPhams = context.SanPhams.Include("DanhMucSanPham").Include("BienTheSanPhams").ToList();
                 foreach (var sanPham in sanPhams)
                 {
                     Console.WriteLine($"Sản phẩm: {sanPham.TenSanPham}");
-                    Console.WriteLine($"Danh mục: {sanPham.DanhMucSanPham.TenDanhMuc}");
+                    Console.WriteLine($"Danh mục: {sanPham.IddanhMuc}");
                     Console.WriteLine($"Mô tả: {sanPham.MoTa}");
 
                     foreach (var bienThe in sanPham.BienTheSanPhams)
@@ -29,9 +30,9 @@ namespace LaptopStore.DAL
                 }
             }
         }
-            public void ThemSanPham()
+        public void ThemSanPham()
         {
-            using (var context = new MyDbContext())
+            using (var context = new LAPTOPSTOREContext())
             {
                 Console.WriteLine("Nhập tên danh mục:");
                 string tenDanhMuc = Console.ReadLine();
@@ -52,8 +53,7 @@ namespace LaptopStore.DAL
                 var sanPham = new SanPham
                 {
                     TenSanPham = tenSanPham,
-                    MoTa = moTaSanPham,
-                    DanhMucSanPham = danhMuc
+                    MoTa = moTaSanPham
                 };
 
                 context.DanhMucSanPhams.Add(danhMuc);
@@ -64,11 +64,11 @@ namespace LaptopStore.DAL
         }
         public void SuaSanPham()
         {
-            using (var context = new MyDbContext())
+            using (var context = new LAPTOPSTOREContext())
             {
                 Console.WriteLine("Nhập ID sản phẩm cần sửa:");
                 int IDSanPham = int.Parse(Console.ReadLine());
-                var sanPham = context.SanPhams.FirstOrDefault(sp => sp.IDSanPham == IDSanPham);
+                var sanPham = context.SanPhams.FirstOrDefault(sp => sp.IdsanPham == IDSanPham);
                 if (sanPham != null)
                 {
                     Console.WriteLine("Nhập tên sản phẩm mới:");
@@ -87,11 +87,11 @@ namespace LaptopStore.DAL
 
         public void XoaSanPham()
         {
-            using (var context = new MyDbContext())
+            using (var context = new LAPTOPSTOREContext())
             {
                 Console.WriteLine("Nhập ID sản phẩm cần xóa:");
                 int IDSanPham = int.Parse(Console.ReadLine());
-                var sanPham = context.SanPhams.FirstOrDefault(sp => sp.IDSanPham == IDSanPham);
+                var sanPham = context.SanPhams.FirstOrDefault(sp => sp.IdsanPham == IDSanPham);
                 if (sanPham != null)
                 {
                     context.SanPhams.Remove(sanPham);
@@ -106,11 +106,11 @@ namespace LaptopStore.DAL
         }
         public void ThemBienTheSanPham()
         {
-            using (var context = new MyDbContext())
+            using (var context = new LAPTOPSTOREContext())
             {
                 Console.WriteLine("Nhập ID sản phẩm:");
                 int IDSanPham = int.Parse(Console.ReadLine());
-                var sanPham = context.SanPhams.FirstOrDefault(sp => sp.IDSanPham == IDSanPham);
+                var sanPham = context.SanPhams.FirstOrDefault(sp => sp.IdsanPham == IDSanPham);
                 if (sanPham != null)
                 {
                     Console.WriteLine("Nhập cấu hình biến thể:");
@@ -120,7 +120,7 @@ namespace LaptopStore.DAL
 
                     var bienThe = new BienTheSanPham
                     {
-                        IDSanPham = IDSanPham,
+                        IdsanPham = IDSanPham,
                         CauHinh = cauHinh,
                         Gia = gia
                     };
@@ -138,11 +138,11 @@ namespace LaptopStore.DAL
 
         public void SuaBienTheSanPham()
         {
-            using (var context = new MyDbContext())
+            using (var context = new LAPTOPSTOREContext())
             {
                 Console.WriteLine("Nhập ID biến thể cần sửa:");
                 int IDBienThe = int.Parse(Console.ReadLine());
-                var bienThe = context.BienTheSanPhams.FirstOrDefault(bt => bt.IDBienThe == IDBienThe);
+                var bienThe = context.BienTheSanPhams.FirstOrDefault(bt => bt.IdbienThe == IDBienThe);
                 if (bienThe != null)
                 {
                     Console.WriteLine("Nhập cấu hình biến thể mới:");
@@ -161,11 +161,11 @@ namespace LaptopStore.DAL
 
         public void XoaBienTheSanPham()
         {
-            using (var context = new MyDbContext())
+            using (var context = new LAPTOPSTOREContext())
             {
                 Console.WriteLine("Nhập ID biến thể cần xóa:");
                 int IDBienThe = int.Parse(Console.ReadLine());
-                var bienThe = context.BienTheSanPhams.FirstOrDefault(bt => bt.IDBienThe == IDBienThe);
+                var bienThe = context.BienTheSanPhams.FirstOrDefault(bt => bt.IdbienThe == IDBienThe);
                 if (bienThe != null)
                 {
                     context.BienTheSanPhams.Remove(bienThe);

@@ -1,22 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LaptopStore.Models
 {
-    public class BienTheSanPham
+    public partial class BienTheSanPham
     {
-        [Key]
-        public int IDBienThe { get; set; }
-        public int IDSanPham { get; set; }
-        public string CauHinh { get; set; }
+        public int IdbienThe { get; set; }
+        public int? IdsanPham { get; set; }
+        public string CauHinh { get; set; } = null!;
         public int Gia { get; set; }
 
-        [ForeignKey("IDSanPham")]
-        public virtual SanPham SanPham { get; set; }
+        public virtual SanPham? IdsanPhamNavigation { get; set; }
     }
 }

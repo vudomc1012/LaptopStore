@@ -11,7 +11,7 @@ namespace LaptopStore.ClassDB
 {
     public class DanhMucSanPhamManager
     {
-        MyDbContext myDbContext = new MyDbContext();
+        LAPTOPSTOREContext myDbContext = new LAPTOPSTOREContext();
         public List<DanhMucSanPham> GetListProductCategory()
         {
             var listProductCategory = new List<DanhMucSanPham>();
@@ -44,7 +44,7 @@ namespace LaptopStore.ClassDB
             try
             {
                 var category = myDbContext.DanhMucSanPhams
-                                    .FirstOrDefault(c => c.IDDanhMuc == danhMucSanPham.IDDanhMuc);
+                                    .FirstOrDefault(c => c.IddanhMuc == danhMucSanPham.IddanhMuc);
 
                 if (category != null)
                 {
@@ -62,7 +62,7 @@ namespace LaptopStore.ClassDB
         {
             try
             {
-                myDbContext.DanhMucSanPhams.AddOrUpdate(danhMucSanPham);
+                myDbContext.DanhMucSanPhams.Update(danhMucSanPham);
                 myDbContext.SaveChanges();
             }
             catch (Exception ex)
